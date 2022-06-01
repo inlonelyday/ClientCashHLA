@@ -12,7 +12,7 @@
 		<objectClass>
 			<name>HLAobjectRoot</name>
 			<objectClass>
-				<name>ProductStorage</name>
+				<name>Queue</name>
 				<sharing>PublishSubscribe</sharing>
 				<semantics>Magazyn dla produktow</semantics>
 				<attribute>

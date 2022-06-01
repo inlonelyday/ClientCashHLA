@@ -1,22 +1,22 @@
-package ProductStorage;
+package Queue;
 
 /**
  * Created by Stanislaw on 08.05.2018.
  */
-public class Storage {
+public class Queue {
     private int available;
     private int max;
-    private static Storage instance = null;
+    private static Queue instance = null;
 
-    private Storage() {
+    private Queue() {
         available=0;
         max=20;
 
     }
 
-    static public Storage getInstance()
+    static public Queue getInstance()
     {
-        if(instance==null) instance = new Storage();
+        if(instance==null) instance = new Queue();
         return instance;
     }
 
@@ -40,12 +40,12 @@ public class Storage {
     {
         if(this.available+count<=this.max) {
             this.available += count;
-            System.out.println("Storage: I just got for " + count + ". Now I have " + this.available + " products");
+            System.out.println("Queue: I just got for " + count + ". Now I have " + this.available + " products");
             return true;
         }
         else
         {
-            System.out.println("Storage: I have no left space for " + count + " products");
+            System.out.println("Queue: I have no left space for " + count + " products");
             return false;
         }
     }
@@ -54,12 +54,12 @@ public class Storage {
     {
         if(available-count>=0) {
             this.available-=count;
-            System.out.println("Storage: I just given " + count + ". Now I have " + this.available + " products");
+            System.out.println("Queue: I just given " + count + ". Now I have " + this.available + " products");
             return true;
         }
         else
         {
-            System.out.println("Storage: I have no left products to give");
+            System.out.println("Queue: I have no left products to give");
             return false;
         }
     }

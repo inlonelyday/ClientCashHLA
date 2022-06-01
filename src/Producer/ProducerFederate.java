@@ -46,13 +46,13 @@ public class ProducerFederate
 	protected EncoderFactory encoderFactory;     // set when we join
 
 	// caches of handle types - set once we join a federation
-	protected ObjectClassHandle storageHandle;
-	protected AttributeHandle storageMaxHandle;
-	protected AttributeHandle storageAvailableHandle;
+	protected ObjectClassHandle queueHandle;
+	protected AttributeHandle queueMaxHandle;
+	protected AttributeHandle queueAvailableHandle;
 	protected InteractionClassHandle addProductsHandle;
 
-	protected int storageMax = 0;
-	protected int storageAvailable = 0;
+	protected int queueMax = 0;
+	protected int queueAvailable = 0;
 	//----------------------------------------------------------
 	//                      CONSTRUCTORS
 	//----------------------------------------------------------
@@ -204,7 +204,7 @@ public class ProducerFederate
 		while( fedamb.isRunning )
 		{
 			int producedValue = producer.produce();
-			if(storageAvailable + producedValue <= storageMax ) {
+			if(queueAvailable + producedValue <= queueMax) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
 				ParameterHandle addProductsCountHandle = rtiamb.getParameterHandle(addProductsHandle, "count");
 				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(producedValue);
@@ -213,7 +213,7 @@ public class ProducerFederate
 			}
 			else
 			{
-				log("Producing canceled because of full storage.");
+				log("Producing canceled because of full queue.");
 			}
 			// 9.3 request a time advance and wait until we get it
 			advanceTime(producer.getTimeToNext());
@@ -292,15 +292,15 @@ public class ProducerFederate
 	 */
 	private void publishAndSubscribe() throws RTIexception
 	{
-		// subscribe for storage
-		this.storageHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.ProductStorage" );
-		this.storageMaxHandle = rtiamb.getAttributeHandle( storageHandle, "max" );
-		this.storageAvailableHandle = rtiamb.getAttributeHandle( storageHandle, "available" );
+		// subscribe for queue
+		this.queueHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.Queue" );
+		this.queueMaxHandle = rtiamb.getAttributeHandle(queueHandle, "max" );
+		this.queueAvailableHandle = rtiamb.getAttributeHandle(queueHandle, "available" );
 //		// package the information into a handle set
 		AttributeHandleSet attributes = rtiamb.getAttributeHandleSetFactory().create();
-		attributes.add( storageMaxHandle );
-		attributes.add( storageAvailableHandle );
-		rtiamb.subscribeObjectClassAttributes( storageHandle, attributes );
+		attributes.add(queueMaxHandle);
+		attributes.add(queueAvailableHandle);
+		rtiamb.subscribeObjectClassAttributes(queueHandle, attributes );
 
 //		publish AddProducts Interaction
 		String iname = "HLAinteractionRoot.ProductsManagment.AddProducts";

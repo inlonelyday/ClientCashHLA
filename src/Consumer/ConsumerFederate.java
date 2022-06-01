@@ -46,13 +46,13 @@ public class ConsumerFederate
 	protected EncoderFactory encoderFactory;     // set when we join
 
 	// caches of handle types - set once we join a federation
-	protected ObjectClassHandle storageHandle;
-	protected AttributeHandle storageMaxHandle;
-	protected AttributeHandle storageAvailableHandle;
+	protected ObjectClassHandle queueHandle;
+	protected AttributeHandle queueMaxHandle;
+	protected AttributeHandle queueAvailableHandle;
 	protected InteractionClassHandle getProductsHandle;
 
-	protected int storageMax = 0;
-	protected int storageAvailable = 0;
+	protected int queueMax = 0;
+	protected int queueAvailable = 0;
 	//----------------------------------------------------------
 	//                      CONSTRUCTORS
 	//----------------------------------------------------------
@@ -202,7 +202,7 @@ public class ConsumerFederate
 		while( fedamb.isRunning )
 		{
 			int consumed = consumer.consume();
-			if(storageAvailable - consumed >= 0 ) {
+			if(queueAvailable - consumed >= 0 ) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
 				ParameterHandle addProductsCountHandle = rtiamb.getParameterHandle(getProductsHandle, "count");
 				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(consumed);
@@ -290,15 +290,15 @@ public class ConsumerFederate
 	 */
 	private void publishAndSubscribe() throws RTIexception
 	{
-		// subscribe for ProductsStorage
-		this.storageHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.ProductStorage" );
-		this.storageMaxHandle = rtiamb.getAttributeHandle( storageHandle, "max" );
-		this.storageAvailableHandle = rtiamb.getAttributeHandle( storageHandle, "available" );
+		// subscribe for ClientQueue
+		this.queueHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.Queue" );
+		this.queueMaxHandle = rtiamb.getAttributeHandle(queueHandle, "max" );
+		this.queueAvailableHandle = rtiamb.getAttributeHandle(queueHandle, "available" );
 //		// package the information into a handle set
 		AttributeHandleSet attributes = rtiamb.getAttributeHandleSetFactory().create();
-		attributes.add( storageMaxHandle );
-		attributes.add( storageAvailableHandle );
-		rtiamb.subscribeObjectClassAttributes(storageHandle, attributes);
+		attributes.add(queueMaxHandle);
+		attributes.add(queueAvailableHandle);
+		rtiamb.subscribeObjectClassAttributes(queueHandle, attributes);
 
 
 //		publish GetProducts interaction

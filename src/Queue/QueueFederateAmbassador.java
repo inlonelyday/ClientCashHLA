@@ -12,7 +12,7 @@
  *   (that goes for your lawyer as well)
  *
  */
-package ProductStorage;
+package Queue;
 
 import hla.rti1516e.AttributeHandle;
 import hla.rti1516e.AttributeHandleValueMap;
@@ -28,7 +28,6 @@ import hla.rti1516e.ParameterHandleValueMap;
 import hla.rti1516e.SynchronizationPointFailureReason;
 import hla.rti1516e.TransportationTypeHandle;
 import hla.rti1516e.encoding.DecoderException;
-import hla.rti1516e.encoding.HLAinteger16BE;
 import hla.rti1516e.encoding.HLAinteger32BE;
 import hla.rti1516e.exceptions.FederateInternalError;
 import hla.rti1516e.time.HLAfloat64Time;
@@ -36,10 +35,10 @@ import org.portico.impl.hla1516e.types.encoding.HLA1516eInteger32BE;
 
 /**
  * This class handles all incoming callbacks from the RTI regarding a particular
- * {@link StorageFederate}. It will log information about any callbacks it
+ * {@link QueueFederate}. It will log information about any callbacks it
  * receives, thus demonstrating how to deal with the provided callback information.
  */
-public class StorageFederateAmbassador extends NullFederateAmbassador
+public class QueueFederateAmbassador extends NullFederateAmbassador
 {
 	//----------------------------------------------------------
 	//                    STATIC VARIABLES
@@ -48,7 +47,7 @@ public class StorageFederateAmbassador extends NullFederateAmbassador
 	//----------------------------------------------------------
 	//                   INSTANCE VARIABLES
 	//----------------------------------------------------------
-	private StorageFederate federate;
+	private QueueFederate federate;
 
 	// these variables are accessible in the package
 	protected double federateTime        = 0.0;
@@ -67,7 +66,7 @@ public class StorageFederateAmbassador extends NullFederateAmbassador
 	//                      CONSTRUCTORS
 	//----------------------------------------------------------
 
-	public StorageFederateAmbassador(StorageFederate federate )
+	public QueueFederateAmbassador(QueueFederate federate )
 	{
 		this.federate = federate;
 	}
@@ -100,7 +99,7 @@ public class StorageFederateAmbassador extends NullFederateAmbassador
 	public void announceSynchronizationPoint( String label, byte[] tag )
 	{
 		log( "Synchronization point announced: " + label );
-		if( label.equals(StorageFederate.READY_TO_RUN) )
+		if( label.equals(QueueFederate.READY_TO_RUN) )
 			this.isAnnounced = true;
 	}
 
@@ -108,7 +107,7 @@ public class StorageFederateAmbassador extends NullFederateAmbassador
 	public void federationSynchronized( String label, FederateHandleSet failed )
 	{
 		log( "Federation Synchronized: " + label );
-		if( label.equals(StorageFederate.READY_TO_RUN) )
+		if( label.equals(QueueFederate.READY_TO_RUN) )
 			this.isReadyToRun = true;
 	}
 
@@ -280,11 +279,11 @@ public class StorageFederateAmbassador extends NullFederateAmbassador
 				builder.append( "\tcount Value=" + countValue );
 				if( interactionClass.equals(federate.addProductsHandle) )
 				{
-					Storage.getInstance().addTo(countValue);
+					Queue.getInstance().addTo(countValue);
 				}
 				else if( interactionClass.equals(federate.getProductsHandle) )
 				{
-					Storage.getInstance().getFrom(countValue);
+					Queue.getInstance().getFrom(countValue);
 				}
 
 

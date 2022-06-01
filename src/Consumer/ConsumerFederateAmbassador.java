@@ -17,7 +17,6 @@ package Consumer;
 import Producer.ProducerFederate;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.DecoderException;
-import hla.rti1516e.encoding.HLAinteger16BE;
 import hla.rti1516e.encoding.HLAinteger32BE;
 import hla.rti1516e.exceptions.FederateInternalError;
 import hla.rti1516e.time.HLAfloat64Time;
@@ -191,7 +190,7 @@ public class ConsumerFederateAmbassador extends NullFederateAmbassador
 			builder.append( "\tattributeHandle=" );
 
 			// if we're dealing with Flavor, decode into the appropriate enum value
-			if( attributeHandle.equals(federate.storageAvailableHandle) )
+			if( attributeHandle.equals(federate.queueAvailableHandle) )
 			{
 				builder.append( attributeHandle );
 				builder.append( " (Available)    " );
@@ -203,9 +202,9 @@ public class ConsumerFederateAmbassador extends NullFederateAmbassador
 					e.printStackTrace();
 				}
 				builder.append( available.getValue() );
-				federate.storageAvailable = available.getValue();
+				federate.queueAvailable = available.getValue();
 			}
-			else if( attributeHandle.equals(federate.storageMaxHandle) )
+			else if( attributeHandle.equals(federate.queueMaxHandle) )
 			{
 				builder.append( attributeHandle );
 				builder.append( " (Max)" );
@@ -217,7 +216,7 @@ public class ConsumerFederateAmbassador extends NullFederateAmbassador
 					e.printStackTrace();
 				}
 				builder.append( max.getValue() );
-				federate.storageMax = max.getValue();
+				federate.queueMax = max.getValue();
 			}
 			else
 			{

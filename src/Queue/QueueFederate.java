@@ -12,11 +12,10 @@
  *   (that goes for your lawyer as well)
  *
  */
-package ProductStorage;
+package Queue;
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.EncoderFactory;
-import hla.rti1516e.encoding.HLAinteger16BE;
 import hla.rti1516e.encoding.HLAinteger32BE;
 import hla.rti1516e.exceptions.FederatesCurrentlyJoined;
 import hla.rti1516e.exceptions.FederationExecutionAlreadyExists;
@@ -31,9 +30,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Random;
 
-public class StorageFederate
+public class QueueFederate
 {
 	//----------------------------------------------------------
 	//                    STATIC VARIABLES
@@ -48,14 +46,14 @@ public class StorageFederate
 	//                   INSTANCE VARIABLES
 	//----------------------------------------------------------
 	private RTIambassador rtiamb;
-	private StorageFederateAmbassador fedamb;  // created when we connect
+	private QueueFederateAmbassador fedamb;  // created when we connect
 	private HLAfloat64TimeFactory timeFactory; // set when we join
 	protected EncoderFactory encoderFactory;     // set when we join
 
 	// caches of handle types - set once we join a federation
-	protected ObjectClassHandle storageHandle;
-	protected AttributeHandle storageMaxHandle;
-	protected AttributeHandle storageAvailableHandle;
+	protected ObjectClassHandle queueHandle;
+	protected AttributeHandle queueMaxHandle;
+	protected AttributeHandle queueAvailableHandle;
 	protected InteractionClassHandle addProductsHandle;
 	protected InteractionClassHandle getProductsHandle;
 	protected ParameterHandle countHandle;
@@ -72,7 +70,7 @@ public class StorageFederate
 	 */
 	private void log( String message )
 	{
-		System.out.println( "StorageFederate   : " + message );
+		System.out.println( "QueueFederate   : " + message );
 	}
 
 	/**
@@ -112,7 +110,7 @@ public class StorageFederate
 		
 		// connect
 		log( "Connecting..." );
-		fedamb = new StorageFederateAmbassador( this );
+		fedamb = new QueueFederateAmbassador( this );
 		rtiamb.connect( fedamb, CallbackModel.HLA_EVOKED );
 
 		//////////////////////////////
@@ -145,7 +143,7 @@ public class StorageFederate
 		// 4. join the federation //
 		////////////////////////////
 		rtiamb.joinFederationExecution( federateName,            // name for the federate
-		                                "storage",   // federate type
+		                                "queue",   // federate type
 		                                "ClientCashFederation"     // name of federation
 		                                 );           // modules we want to add
 
@@ -204,8 +202,8 @@ public class StorageFederate
 		/////////////////////////////////////
 		// 9. register an object to update //
 		/////////////////////////////////////
-		ObjectInstanceHandle objectHandle = rtiamb.registerObjectInstance( storageHandle );
-		log( "Registered Storage, handle=" + objectHandle );
+		ObjectInstanceHandle objectHandle = rtiamb.registerObjectInstance(queueHandle);
+		log( "Registered Queue, handle=" + objectHandle );
 		
 		/////////////////////////////////////
 		// 10. do the main simulation loop //
@@ -215,14 +213,14 @@ public class StorageFederate
 		// send an interaction.
 		while( fedamb.isRunning )
 		{
-			// update ProductsStorage parameters max and available to current values
+			// update Queue parameters max and available to current values
 			AttributeHandleValueMap attributes = rtiamb.getAttributeHandleValueMapFactory().create(2);
 
-			HLAinteger32BE maxValue = encoderFactory.createHLAinteger32BE( Storage.getInstance().getMax());
-			attributes.put( storageMaxHandle, maxValue.toByteArray() );
+			HLAinteger32BE maxValue = encoderFactory.createHLAinteger32BE( Queue.getInstance().getMax());
+			attributes.put(queueMaxHandle, maxValue.toByteArray() );
 
-			HLAinteger32BE availableValue = encoderFactory.createHLAinteger32BE( Storage.getInstance().getAvailable() );
-			attributes.put( storageAvailableHandle, availableValue.toByteArray() );
+			HLAinteger32BE availableValue = encoderFactory.createHLAinteger32BE( Queue.getInstance().getAvailable() );
+			attributes.put(queueAvailableHandle, availableValue.toByteArray() );
 
 			rtiamb.updateAttributeValues( objectHandle, attributes, generateTag() );
 
@@ -308,15 +306,15 @@ public class StorageFederate
 	private void publishAndSubscribe() throws RTIexception
 	{
 //		publish ProductsStrorage object
-		this.storageHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.ProductStorage" );
-		this.storageMaxHandle = rtiamb.getAttributeHandle( storageHandle, "max" );
-		this.storageAvailableHandle = rtiamb.getAttributeHandle( storageHandle, "available" );
+		this.queueHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.Queue" );
+		this.queueMaxHandle = rtiamb.getAttributeHandle(queueHandle, "max" );
+		this.queueAvailableHandle = rtiamb.getAttributeHandle(queueHandle, "available" );
 //		// package the information into a handle set
 		AttributeHandleSet attributes = rtiamb.getAttributeHandleSetFactory().create();
-		attributes.add( storageMaxHandle );
-		attributes.add( storageAvailableHandle );
+		attributes.add(queueMaxHandle);
+		attributes.add(queueAvailableHandle);
 //
-		rtiamb.publishObjectClassAttributes( storageHandle, attributes );
+		rtiamb.publishObjectClassAttributes(queueHandle, attributes );
 
 		//get count parameter for ProductsManagment Interaction
 		countHandle = rtiamb.getParameterHandle(rtiamb.getInteractionClassHandle( "HLAinteractionRoot.ProductsManagment" ), "count");
@@ -370,7 +368,7 @@ public class StorageFederate
 	public static void main( String[] args )
 	{
 		// get a federate name, use "exampleFederate" as default
-		String federateName = "Storage";
+		String federateName = "Queue";
 		if( args.length != 0 )
 		{
 			federateName = args[0];
@@ -379,7 +377,7 @@ public class StorageFederate
 		try
 		{
 			// run the example federate
-			new StorageFederate().runFederate( federateName );
+			new QueueFederate().runFederate( federateName );
 		}
 		catch( Exception rtie )
 		{
