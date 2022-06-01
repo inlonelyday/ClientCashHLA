@@ -4,12 +4,12 @@ package Queue;
  * Created by Stanislaw on 08.05.2018.
  */
 public class Queue {
-    private int available;
+    private int number_of_clients;
     private int max;
     private static Queue instance = null;
 
     private Queue() {
-        available=0;
+        number_of_clients =0;
         max=20;
 
     }
@@ -20,12 +20,12 @@ public class Queue {
         return instance;
     }
 
-    public int getAvailable() {
-        return available;
+    public int getNumber_of_clients() {
+        return number_of_clients;
     }
 
-    public void setAvailable(int available) {
-        this.available = available;
+    public void setNumber_of_clients(int number_of_clients) {
+        this.number_of_clients = number_of_clients;
     }
 
     public int getMax() {
@@ -38,9 +38,9 @@ public class Queue {
 
     public boolean addTo(int count)
     {
-        if(this.available+count<=this.max) {
-            this.available += count;
-            System.out.println("Queue: I just got for " + count + ". Now I have " + this.available + " products");
+        if(this.number_of_clients +count<=this.max) {
+            this.number_of_clients += count;
+            System.out.println("Queue: I just got for " + count + ". Now I have " + this.number_of_clients + " products");
             return true;
         }
         else
@@ -52,9 +52,9 @@ public class Queue {
 
     public boolean getFrom(int count)
     {
-        if(available-count>=0) {
-            this.available-=count;
-            System.out.println("Queue: I just given " + count + ". Now I have " + this.available + " products");
+        if(number_of_clients -count>=0) {
+            this.number_of_clients -=count;
+            System.out.println("Queue: I just given " + count + ". Now I have " + this.number_of_clients + " products");
             return true;
         }
         else

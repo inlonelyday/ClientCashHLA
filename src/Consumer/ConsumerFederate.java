@@ -48,11 +48,11 @@ public class ConsumerFederate
 	// caches of handle types - set once we join a federation
 	protected ObjectClassHandle queueHandle;
 	protected AttributeHandle queueMaxHandle;
-	protected AttributeHandle queueAvailableHandle;
+	protected AttributeHandle queueNumberOfClientsHandle;
 	protected InteractionClassHandle getProductsHandle;
 
 	protected int queueMax = 0;
-	protected int queueAvailable = 0;
+	protected int queueNumberOfClients = 0;
 	//----------------------------------------------------------
 	//                      CONSTRUCTORS
 	//----------------------------------------------------------
@@ -202,7 +202,7 @@ public class ConsumerFederate
 		while( fedamb.isRunning )
 		{
 			int consumed = consumer.consume();
-			if(queueAvailable - consumed >= 0 ) {
+			if(queueNumberOfClients - consumed >= 0 ) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
 				ParameterHandle addProductsCountHandle = rtiamb.getParameterHandle(getProductsHandle, "count");
 				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(consumed);
@@ -293,11 +293,11 @@ public class ConsumerFederate
 		// subscribe for ClientQueue
 		this.queueHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.Queue" );
 		this.queueMaxHandle = rtiamb.getAttributeHandle(queueHandle, "max" );
-		this.queueAvailableHandle = rtiamb.getAttributeHandle(queueHandle, "available" );
+		this.queueNumberOfClientsHandle = rtiamb.getAttributeHandle(queueHandle, "number_of_clients");
 //		// package the information into a handle set
 		AttributeHandleSet attributes = rtiamb.getAttributeHandleSetFactory().create();
 		attributes.add(queueMaxHandle);
-		attributes.add(queueAvailableHandle);
+		attributes.add(queueNumberOfClientsHandle);
 		rtiamb.subscribeObjectClassAttributes(queueHandle, attributes);
 
 

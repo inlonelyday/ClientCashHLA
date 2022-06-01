@@ -53,7 +53,7 @@ public class QueueFederate
 	// caches of handle types - set once we join a federation
 	protected ObjectClassHandle queueHandle;
 	protected AttributeHandle queueMaxHandle;
-	protected AttributeHandle queueAvailableHandle;
+	protected AttributeHandle queueNumberOfClientsHandle;
 	protected InteractionClassHandle addProductsHandle;
 	protected InteractionClassHandle getProductsHandle;
 	protected ParameterHandle countHandle;
@@ -213,14 +213,14 @@ public class QueueFederate
 		// send an interaction.
 		while( fedamb.isRunning )
 		{
-			// update Queue parameters max and available to current values
+			// update Queue parameters max and number_of_clients to current values
 			AttributeHandleValueMap attributes = rtiamb.getAttributeHandleValueMapFactory().create(2);
 
 			HLAinteger32BE maxValue = encoderFactory.createHLAinteger32BE( Queue.getInstance().getMax());
 			attributes.put(queueMaxHandle, maxValue.toByteArray() );
 
-			HLAinteger32BE availableValue = encoderFactory.createHLAinteger32BE( Queue.getInstance().getAvailable() );
-			attributes.put(queueAvailableHandle, availableValue.toByteArray() );
+			HLAinteger32BE numberOfClientsValue = encoderFactory.createHLAinteger32BE( Queue.getInstance().getNumber_of_clients() );
+			attributes.put(queueNumberOfClientsHandle, numberOfClientsValue.toByteArray() );
 
 			rtiamb.updateAttributeValues( objectHandle, attributes, generateTag() );
 
@@ -308,11 +308,11 @@ public class QueueFederate
 //		publish ProductsStrorage object
 		this.queueHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.Queue" );
 		this.queueMaxHandle = rtiamb.getAttributeHandle(queueHandle, "max" );
-		this.queueAvailableHandle = rtiamb.getAttributeHandle(queueHandle, "available" );
+		this.queueNumberOfClientsHandle = rtiamb.getAttributeHandle(queueHandle, "number_of_clients" );
 //		// package the information into a handle set
 		AttributeHandleSet attributes = rtiamb.getAttributeHandleSetFactory().create();
 		attributes.add(queueMaxHandle);
-		attributes.add(queueAvailableHandle);
+		attributes.add(queueNumberOfClientsHandle);
 //
 		rtiamb.publishObjectClassAttributes(queueHandle, attributes );
 

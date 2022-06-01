@@ -16,7 +16,7 @@
 				<sharing>PublishSubscribe</sharing>
 				<semantics>Magazyn dla produktow</semantics>
 				<attribute>
-					<name>available</name>
+					<name>number_of_clients</name>
 					<dataType>HLAinteger32BE</dataType>
 					<updateType>Conditional</updateType>
 					<updateCondition>On Change</updateCondition>
@@ -24,7 +24,7 @@
 					<sharing>PublishSubscribe</sharing>
 					<transportation>HLAreliable</transportation>
 					<order>Receive</order>
-					<semantics>Liczba osiagalnych produktow w magazynie</semantics>
+					<semantics>Liczba klientow w kolejce</semantics>
 				</attribute>
 				<attribute>
 					<name>max</name>

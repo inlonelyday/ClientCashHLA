@@ -202,19 +202,19 @@ public class ProducerFederateAmbassador extends NullFederateAmbassador
 			builder.append( "\tattributeHandle=" );
 
 			// if we're dealing with Flavor, decode into the appropriate enum value
-			if( attributeHandle.equals(federate.queueAvailableHandle) )
+			if( attributeHandle.equals(federate.queueNumberOfClientsHandle) )
 			{
 				builder.append( attributeHandle );
-				builder.append( " (Available)    " );
+				builder.append( " (NumberOfClients)    " );
 				builder.append( ", attributeValue=" );
-				HLAinteger32BE available = new HLA1516eInteger32BE();
+				HLAinteger32BE number_of_clients = new HLA1516eInteger32BE();
 				try {
-					available.decode(theAttributes.get(attributeHandle));
+					number_of_clients.decode(theAttributes.get(attributeHandle));
 				} catch (DecoderException e) {
 					e.printStackTrace();
 				}
-				builder.append( available.getValue() );
-				federate.queueAvailable = available.getValue();
+				builder.append( number_of_clients.getValue() );
+				federate.queueNumberOfClients = number_of_clients.getValue();
 			}
 			else if( attributeHandle.equals(federate.queueMaxHandle) )
 			{
