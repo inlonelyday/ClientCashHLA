@@ -124,10 +124,10 @@ public class StorageFederate
 		try
 		{
 			URL[] modules = new URL[]{
-			    (new File("foms/ProducerConsumer.xml")).toURI().toURL(),
+			    (new File("foms/ClientCash.xml")).toURI().toURL(),
 			};
 			
-			rtiamb.createFederationExecution( "ProducerConsumerFederation", modules );
+			rtiamb.createFederationExecution( "ClientCashFederation", modules );
 			log( "Created Federation" );
 		}
 		catch( FederationExecutionAlreadyExists exists )
@@ -146,7 +146,7 @@ public class StorageFederate
 		////////////////////////////
 		rtiamb.joinFederationExecution( federateName,            // name for the federate
 		                                "storage",   // federate type
-		                                "ProducerConsumerFederation"     // name of federation
+		                                "ClientCashFederation"     // name of federation
 		                                 );           // modules we want to add
 
 		log( "Joined Federation as " + federateName );
