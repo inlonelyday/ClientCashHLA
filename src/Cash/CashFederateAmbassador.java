@@ -14,7 +14,7 @@
  */
 package Cash;
 
-import Producer.ProducerFederate;
+import Client.ClientFederate;
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.DecoderException;
 import hla.rti1516e.encoding.HLAinteger32BE;
@@ -24,7 +24,7 @@ import org.portico.impl.hla1516e.types.encoding.HLA1516eInteger32BE;
 
 /**
  * This class handles all incoming callbacks from the RTI regarding a particular
- * {@link ProducerFederate}. It will log information about any callbacks it
+ * {@link ClientFederate}. It will log information about any callbacks it
  * receives, thus demonstrating how to deal with the provided callback information.
  */
 public class CashFederateAmbassador extends NullFederateAmbassador
@@ -89,7 +89,7 @@ public class CashFederateAmbassador extends NullFederateAmbassador
 	public void announceSynchronizationPoint( String label, byte[] tag )
 	{
 		log( "Synchronization point announced: " + label );
-		if( label.equals(ProducerFederate.READY_TO_RUN) )
+		if( label.equals(ClientFederate.READY_TO_RUN) )
 			this.isAnnounced = true;
 	}
 
@@ -97,7 +97,7 @@ public class CashFederateAmbassador extends NullFederateAmbassador
 	public void federationSynchronized( String label, FederateHandleSet failed )
 	{
 		log( "Federation Synchronized: " + label );
-		if( label.equals(ProducerFederate.READY_TO_RUN) )
+		if( label.equals(ClientFederate.READY_TO_RUN) )
 			this.isReadyToRun = true;
 	}
 

@@ -14,7 +14,7 @@ public class Cash {
         timeToNext = generateTimeToNext();
     }
 
-    public int consume()
+    public int serve()
     {
         timeToNext=generateTimeToNext();
         int count = random.nextInt(4)+1;

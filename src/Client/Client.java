@@ -1,24 +1,24 @@
-package Producer;
+package Client;
 
 import java.util.Random;
 
 /**
  * Created by Stanislaw on 08.05.2018.
  */
-public class Producer {
+public class Client {
     int timeToNext;
     private Random random;
 
-    public Producer() {
+    public Client() {
         random = new Random();
         timeToNext = generateTimeToNext();
     }
 
-    public int produce()
+    public int create()
     {
         timeToNext=generateTimeToNext();
         int count = random.nextInt(4)+1;
-        System.out.println("I produced " + count + ". Next I'll produce in " + timeToNext);
+        System.out.println("I created " + count + ". Next I'll create in " + timeToNext);
         return count;
     }
 

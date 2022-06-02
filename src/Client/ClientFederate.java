@@ -12,7 +12,7 @@
  *   (that goes for your lawyer as well)
  *
  */
-package Producer;
+package Client;
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.EncoderFactory;
@@ -32,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class ProducerFederate
+public class ClientFederate
 {
 	/** The sync point all federates will sync up on before starting */
 	public static final String READY_TO_RUN = "ReadyToRun";
@@ -41,7 +41,7 @@ public class ProducerFederate
 	//                   INSTANCE VARIABLES
 	//----------------------------------------------------------
 	private RTIambassador rtiamb;
-	private ProducerFederateAmbassador fedamb;  // created when we connect
+	private ClientFederateAmbassador fedamb;  // created when we connect
 	private HLAfloat64TimeFactory timeFactory; // set when we join
 	protected EncoderFactory encoderFactory;     // set when we join
 
@@ -65,7 +65,7 @@ public class ProducerFederate
 	 */
 	private void log( String message )
 	{
-		System.out.println( "ProducerFederate   : " + message );
+		System.out.println( "ClientFederate   : " + message );
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class ProducerFederate
 		
 		// connect
 		log( "Connecting..." );
-		fedamb = new ProducerFederateAmbassador( this );
+		fedamb = new ClientFederateAmbassador( this );
 		rtiamb.connect( fedamb, CallbackModel.HLA_EVOKED );
 
 		//////////////////////////////
@@ -139,7 +139,7 @@ public class ProducerFederate
 		////////////////////////////
 
 		rtiamb.joinFederationExecution( federateName,            // name for the federate
-		                                "producer",   // federate type
+		                                "client",   // federate type
 		                                "ClientCashFederation"     // name of federation
 		                                 );           // modules we want to add
 
@@ -191,7 +191,7 @@ public class ProducerFederate
 		// 8. publish and subscribe //
 		//////////////////////////////
 		// in this section we tell the RTI of all the data we are going to
-		// produce, and all the data we want to know about
+		// create, and all the data we want to know about
 		publishAndSubscribe();
 		log( "Published and Subscribed" );
 
@@ -200,14 +200,14 @@ public class ProducerFederate
 		// here is where we do the meat of our work. in each iteration, we will
 		// update the attribute values of the object we registered, and will
 		// send an interaction.
-		Producer producer = new Producer();
+		Client client = new Client();
 		while( fedamb.isRunning )
 		{
-			int producedValue = producer.produce();
-			if(queueNumberOfClients + producedValue <= queueMax) {
+			int createdValue = client.create();
+			if(queueNumberOfClients + createdValue <= queueMax) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
 				ParameterHandle addClientsCountHandle = rtiamb.getParameterHandle(addClientsHandle, "count");
-				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(producedValue);
+				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(createdValue);
 				parameterHandleValueMap.put(addClientsCountHandle, count.toByteArray());
 				rtiamb.sendInteraction(addClientsHandle, parameterHandleValueMap, generateTag());
 			}
@@ -216,7 +216,7 @@ public class ProducerFederate
 				log("Producing canceled because of full queue.");
 			}
 			// 9.3 request a time advance and wait until we get it
-			advanceTime(producer.getTimeToNext());
+			advanceTime(client.getTimeToNext());
 			log( "Time Advanced to " + fedamb.federateTime );
 		}
 
@@ -345,7 +345,7 @@ public class ProducerFederate
 	public static void main( String[] args )
 	{
 		// get a federate name, use "exampleFederate" as default
-		String federateName = "Producer";
+		String federateName = "Client";
 		if( args.length != 0 )
 		{
 			federateName = args[0];
@@ -354,7 +354,7 @@ public class ProducerFederate
 		try
 		{
 			// run the example federate
-			new ProducerFederate().runFederate( federateName );
+			new ClientFederate().runFederate( federateName );
 		}
 		catch( Exception rtie )
 		{

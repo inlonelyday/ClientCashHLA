@@ -202,11 +202,11 @@ public class CashFederate
 		Cash cash = new Cash();
 		while( fedamb.isRunning )
 		{
-			int consumed = cash.consume();
-			if(queueNumberOfClients - consumed >= 0 ) {
+			int served = cash.serve();
+			if(queueNumberOfClients - served >= 0 ) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
 				ParameterHandle addClientsCountHandle = rtiamb.getParameterHandle(getClientsHandle, "count");
-				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(consumed);
+				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(served);
 				parameterHandleValueMap.put(addClientsCountHandle, count.toByteArray());
 				rtiamb.sendInteraction(getClientsHandle, parameterHandleValueMap, generateTag());
 			}

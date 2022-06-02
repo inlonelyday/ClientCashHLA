@@ -12,7 +12,7 @@
  *   (that goes for your lawyer as well)
  *
  */
-package Producer;
+package Client;
 
 import hla.rti1516e.AttributeHandle;
 import hla.rti1516e.AttributeHandleValueMap;
@@ -35,10 +35,10 @@ import org.portico.impl.hla1516e.types.encoding.HLA1516eInteger32BE;
 
 /**
  * This class handles all incoming callbacks from the RTI regarding a particular
- * {@link ProducerFederate}. It will log information about any callbacks it
+ * {@link ClientFederate}. It will log information about any callbacks it
  * receives, thus demonstrating how to deal with the provided callback information.
  */
-public class ProducerFederateAmbassador extends NullFederateAmbassador
+public class ClientFederateAmbassador extends NullFederateAmbassador
 {
 	//----------------------------------------------------------
 	//                    STATIC VARIABLES
@@ -47,7 +47,7 @@ public class ProducerFederateAmbassador extends NullFederateAmbassador
 	//----------------------------------------------------------
 	//                   INSTANCE VARIABLES
 	//----------------------------------------------------------
-	private ProducerFederate federate;
+	private ClientFederate federate;
 
 	// these variables are accessible in the package
 	protected double federateTime        = 0.0;
@@ -67,7 +67,7 @@ public class ProducerFederateAmbassador extends NullFederateAmbassador
 	//                      CONSTRUCTORS
 	//----------------------------------------------------------
 
-	public ProducerFederateAmbassador(ProducerFederate federate )
+	public ClientFederateAmbassador(ClientFederate federate )
 	{
 		this.federate = federate;
 	}
@@ -101,7 +101,7 @@ public class ProducerFederateAmbassador extends NullFederateAmbassador
 	public void announceSynchronizationPoint( String label, byte[] tag )
 	{
 		log( "Synchronization point announced: " + label );
-		if( label.equals(ProducerFederate.READY_TO_RUN) )
+		if( label.equals(ClientFederate.READY_TO_RUN) )
 			this.isAnnounced = true;
 	}
 
@@ -109,7 +109,7 @@ public class ProducerFederateAmbassador extends NullFederateAmbassador
 	public void federationSynchronized( String label, FederateHandleSet failed )
 	{
 		log( "Federation Synchronized: " + label );
-		if( label.equals(ProducerFederate.READY_TO_RUN) )
+		if( label.equals(ClientFederate.READY_TO_RUN) )
 			this.isReadyToRun = true;
 	}
 
