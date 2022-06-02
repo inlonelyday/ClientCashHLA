@@ -54,8 +54,8 @@ public class QueueFederate
 	protected ObjectClassHandle queueHandle;
 	protected AttributeHandle queueMaxHandle;
 	protected AttributeHandle queueNumberOfClientsHandle;
-	protected InteractionClassHandle addProductsHandle;
-	protected InteractionClassHandle getProductsHandle;
+	protected InteractionClassHandle addClientsHandle;
+	protected InteractionClassHandle getClientsHandle;
 	protected ParameterHandle countHandle;
 
 	//----------------------------------------------------------
@@ -305,7 +305,7 @@ public class QueueFederate
 	 */
 	private void publishAndSubscribe() throws RTIexception
 	{
-//		publish ProductsStrorage object
+//		publish CLientsQueue object
 		this.queueHandle = rtiamb.getObjectClassHandle( "HLAobjectRoot.Queue" );
 		this.queueMaxHandle = rtiamb.getAttributeHandle(queueHandle, "max" );
 		this.queueNumberOfClientsHandle = rtiamb.getAttributeHandle(queueHandle, "number_of_clients" );
@@ -316,19 +316,19 @@ public class QueueFederate
 //
 		rtiamb.publishObjectClassAttributes(queueHandle, attributes );
 
-		//get count parameter for ProductsManagment Interaction
-		countHandle = rtiamb.getParameterHandle(rtiamb.getInteractionClassHandle( "HLAinteractionRoot.ProductsManagment" ), "count");
+		//get count parameter for ClientsManagment Interaction
+		countHandle = rtiamb.getParameterHandle(rtiamb.getInteractionClassHandle( "HLAinteractionRoot.ClientsManagment" ), "count");
 
-		// subscribe for AddProducts interaction
-		String iname = "HLAinteractionRoot.ProductsManagment.AddProducts";
-		addProductsHandle = rtiamb.getInteractionClassHandle( iname );
-		rtiamb.subscribeInteractionClass(addProductsHandle);
+		// subscribe for AddClients interaction
+		String iname = "HLAinteractionRoot.ClientsManagment.AddClients";
+		addClientsHandle = rtiamb.getInteractionClassHandle( iname );
+		rtiamb.subscribeInteractionClass(addClientsHandle);
 
-		// subscribe for GetProducts interaction
-		iname = "HLAinteractionRoot.ProductsManagment.GetProducts";
-		getProductsHandle = rtiamb.getInteractionClassHandle( iname );
-		countHandle = rtiamb.getParameterHandle(rtiamb.getInteractionClassHandle( "HLAinteractionRoot.ProductsManagment" ), "count");
-		rtiamb.subscribeInteractionClass(getProductsHandle);
+		// subscribe for GetClient interaction
+		iname = "HLAinteractionRoot.ClientsManagment.GetClients";
+		getClientsHandle = rtiamb.getInteractionClassHandle( iname );
+		countHandle = rtiamb.getParameterHandle(rtiamb.getInteractionClassHandle( "HLAinteractionRoot.ClientsManagment" ), "count");
+		rtiamb.subscribeInteractionClass(getClientsHandle);
 	}
 
 	/**

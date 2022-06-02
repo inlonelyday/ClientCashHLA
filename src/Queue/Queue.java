@@ -40,12 +40,12 @@ public class Queue {
     {
         if(this.number_of_clients +count<=this.max) {
             this.number_of_clients += count;
-            System.out.println("Queue: I just got for " + count + ". Now I have " + this.number_of_clients + " products");
+            System.out.println("Queue: I just got " + count + " new clients. Now I have " + this.number_of_clients + " clients");
             return true;
         }
         else
         {
-            System.out.println("Queue: I have no left space for " + count + " products");
+            System.out.println("Queue: I have no left space for " + count + " clients");
             return false;
         }
     }
@@ -54,12 +54,12 @@ public class Queue {
     {
         if(number_of_clients -count>=0) {
             this.number_of_clients -=count;
-            System.out.println("Queue: I just given " + count + ". Now I have " + this.number_of_clients + " products");
+            System.out.println("Queue: I just remove " + count + ". Now I have " + this.number_of_clients + " clients");
             return true;
         }
         else
         {
-            System.out.println("Queue: I have no left products to give");
+            System.out.println("Queue: I have no left clients to serve");
             return false;
         }
     }

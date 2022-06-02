@@ -49,7 +49,7 @@ public class ConsumerFederate
 	protected ObjectClassHandle queueHandle;
 	protected AttributeHandle queueMaxHandle;
 	protected AttributeHandle queueNumberOfClientsHandle;
-	protected InteractionClassHandle getProductsHandle;
+	protected InteractionClassHandle getClientsHandle;
 
 	protected int queueMax = 0;
 	protected int queueNumberOfClients = 0;
@@ -204,14 +204,14 @@ public class ConsumerFederate
 			int consumed = consumer.consume();
 			if(queueNumberOfClients - consumed >= 0 ) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
-				ParameterHandle addProductsCountHandle = rtiamb.getParameterHandle(getProductsHandle, "count");
+				ParameterHandle addClientsCountHandle = rtiamb.getParameterHandle(getClientsHandle, "count");
 				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(consumed);
-				parameterHandleValueMap.put(addProductsCountHandle, count.toByteArray());
-				rtiamb.sendInteraction(getProductsHandle, parameterHandleValueMap, generateTag());
+				parameterHandleValueMap.put(addClientsCountHandle, count.toByteArray());
+				rtiamb.sendInteraction(getClientsHandle, parameterHandleValueMap, generateTag());
 			}
 			else
 			{
-				log("Consuming canceled because of lack of products.");
+				log("Consuming canceled because of lack of clients.");
 			}
 			// 9.3 request a time advance and wait until we get it
 			advanceTime(consumer.getTimeToNext());
@@ -301,11 +301,11 @@ public class ConsumerFederate
 		rtiamb.subscribeObjectClassAttributes(queueHandle, attributes);
 
 
-//		publish GetProducts interaction
-		String iname = "HLAinteractionRoot.ProductsManagment.GetProducts";
-		getProductsHandle = rtiamb.getInteractionClassHandle( iname );
+//		publish GetClients interaction
+		String iname = "HLAinteractionRoot.ClientsManagment.GetClients";
+		getClientsHandle = rtiamb.getInteractionClassHandle( iname );
 		// do the publication
-		rtiamb.publishInteractionClass(getProductsHandle);
+		rtiamb.publishInteractionClass(getClientsHandle);
 
 
 	}

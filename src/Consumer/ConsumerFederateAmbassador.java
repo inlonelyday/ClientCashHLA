@@ -267,7 +267,7 @@ public class ConsumerFederateAmbassador extends NullFederateAmbassador
 		
 		// print the handle
 		builder.append( " handle=" + interactionClass );
-		if( interactionClass.equals(federate.getProductsHandle) )
+		if( interactionClass.equals(federate.getClientsHandle) )
 		{
 			builder.append( " (DrinkServed)" );
 		}

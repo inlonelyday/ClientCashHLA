@@ -241,13 +241,13 @@ public class QueueFederateAmbassador extends NullFederateAmbassador
 		
 		// print the handle
 		builder.append( " handle=" + interactionClass );
-		if( interactionClass.equals(federate.addProductsHandle) )
+		if( interactionClass.equals(federate.addClientsHandle) )
 		{
-			builder.append( " (AddProducts)" );
+			builder.append( " (AddClients)" );
 		}
-		else if( interactionClass.equals(federate.getProductsHandle) )
+		else if( interactionClass.equals(federate.getClientsHandle) )
 		{
-			builder.append( " (GetProducts)" );
+			builder.append( " (GetClients)" );
 		}
 
 		// print the tag
@@ -277,11 +277,11 @@ public class QueueFederateAmbassador extends NullFederateAmbassador
 				}
 				int countValue = count.getValue();
 				builder.append( "\tcount Value=" + countValue );
-				if( interactionClass.equals(federate.addProductsHandle) )
+				if( interactionClass.equals(federate.addClientsHandle) )
 				{
 					Queue.getInstance().addTo(countValue);
 				}
-				else if( interactionClass.equals(federate.getProductsHandle) )
+				else if( interactionClass.equals(federate.getClientsHandle) )
 				{
 					Queue.getInstance().getFrom(countValue);
 				}

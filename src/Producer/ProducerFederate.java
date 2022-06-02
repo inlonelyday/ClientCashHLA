@@ -49,7 +49,7 @@ public class ProducerFederate
 	protected ObjectClassHandle queueHandle;
 	protected AttributeHandle queueMaxHandle;
 	protected AttributeHandle queueNumberOfClientsHandle;
-	protected InteractionClassHandle addProductsHandle;
+	protected InteractionClassHandle addClientsHandle;
 
 	protected int queueMax = 0;
 	protected int queueNumberOfClients = 0;
@@ -206,10 +206,10 @@ public class ProducerFederate
 			int producedValue = producer.produce();
 			if(queueNumberOfClients + producedValue <= queueMax) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
-				ParameterHandle addProductsCountHandle = rtiamb.getParameterHandle(addProductsHandle, "count");
+				ParameterHandle addClientsCountHandle = rtiamb.getParameterHandle(addClientsHandle, "count");
 				HLAinteger32BE count = encoderFactory.createHLAinteger32BE(producedValue);
-				parameterHandleValueMap.put(addProductsCountHandle, count.toByteArray());
-				rtiamb.sendInteraction(addProductsHandle, parameterHandleValueMap, generateTag());
+				parameterHandleValueMap.put(addClientsCountHandle, count.toByteArray());
+				rtiamb.sendInteraction(addClientsHandle, parameterHandleValueMap, generateTag());
 			}
 			else
 			{
@@ -302,11 +302,11 @@ public class ProducerFederate
 		attributes.add(queueNumberOfClientsHandle);
 		rtiamb.subscribeObjectClassAttributes(queueHandle, attributes );
 
-//		publish AddProducts Interaction
-		String iname = "HLAinteractionRoot.ProductsManagment.AddProducts";
-		addProductsHandle = rtiamb.getInteractionClassHandle( iname );
+//		publish AddClients Interaction
+		String iname = "HLAinteractionRoot.ClientsManagment.AddClients";
+		addClientsHandle = rtiamb.getInteractionClassHandle( iname );
 		// do the publication
-		rtiamb.publishInteractionClass(addProductsHandle);
+		rtiamb.publishInteractionClass(addClientsHandle);
 
 	}
 	/**

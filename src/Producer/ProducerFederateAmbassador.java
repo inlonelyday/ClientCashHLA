@@ -279,9 +279,9 @@ public class ProducerFederateAmbassador extends NullFederateAmbassador
 		
 		// print the handle
 		builder.append( " handle=" + interactionClass );
-		if( interactionClass.equals(federate.addProductsHandle) )
+		if( interactionClass.equals(federate.addClientsHandle) )
 		{
-			builder.append( " (addProductsHandle)" );
+			builder.append( " (addClientsHandle)" );
 		}
 		
 		// print the tag

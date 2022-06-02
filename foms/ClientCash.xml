@@ -14,7 +14,7 @@
 			<objectClass>
 				<name>Queue</name>
 				<sharing>PublishSubscribe</sharing>
-				<semantics>Magazyn dla produktow</semantics>
+				<semantics>Kolejka la klientów</semantics>
 				<attribute>
 					<name>number_of_clients</name>
 					<dataType>HLAinteger32BE</dataType>
@@ -44,7 +44,7 @@
 		<interactionClass>
 			<name>HLAinteractionRoot</name>
 			<interactionClass>
-				<name>ProductsManagment</name>
+				<name>ClientsManagment</name>
 				<sharing>PublishSubscribe</sharing>
 				<transportation>HLAreliable</transportation>
 				<order>Receive</order>
@@ -55,14 +55,14 @@
 						<semantics>Liczba produktow</semantics>
 				</parameter>
 				<interactionClass>
-					<name>AddProducts</name>
+					<name>AddClients</name>
 					<sharing>PublishSubscribe</sharing>
 					<transportation>HLAreliable</transportation>
 					<order>Receive</order>
 					<semantics>Zdarzenie wyprodukowania produkotw</semantics>
 				</interactionClass>
 				<interactionClass>
-					<name>GetProducts</name>
+					<name>GetClients</name>
 					<sharing>Publish</sharing>
 					<transportation>HLAbestEffort</transportation>
 					<order>Receive</order>
