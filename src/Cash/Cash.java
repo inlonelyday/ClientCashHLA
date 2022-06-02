@@ -1,15 +1,15 @@
-package Consumer;
+package Cash;
 
 import java.util.Random;
 
 /**
  * Created by Stanislaw on 08.05.2018.
  */
-public class Consumer {
+public class Cash {
     int timeToNext;
     private Random random;
 
-    public Consumer() {
+    public Cash() {
         random = new Random();
         timeToNext = generateTimeToNext();
     }
@@ -18,7 +18,7 @@ public class Consumer {
     {
         timeToNext=generateTimeToNext();
         int count = random.nextInt(4)+1;
-        System.out.println("I want to consume " + count + ". Next I'll be consuming in " + timeToNext);
+        System.out.println("I want to serve " + count + ". Next I'll be serving in " + timeToNext);
         return count;
     }
 

@@ -12,7 +12,7 @@
  *   (that goes for your lawyer as well)
  *
  */
-package Consumer;
+package Cash;
 
 import hla.rti1516e.*;
 import hla.rti1516e.encoding.EncoderFactory;
@@ -32,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class ConsumerFederate
+public class CashFederate
 {
 	/** The sync point all federates will sync up on before starting */
 	public static final String READY_TO_RUN = "ReadyToRun";
@@ -41,7 +41,7 @@ public class ConsumerFederate
 	//                   INSTANCE VARIABLES
 	//----------------------------------------------------------
 	private RTIambassador rtiamb;
-	private ConsumerFederateAmbassador fedamb;  // created when we connect
+	private CashFederateAmbassador fedamb;  // created when we connect
 	private HLAfloat64TimeFactory timeFactory; // set when we join
 	protected EncoderFactory encoderFactory;     // set when we join
 
@@ -65,7 +65,8 @@ public class ConsumerFederate
 	 */
 	private void log( String message )
 	{
-		System.out.println( "ConsumerFederate   : " + message );
+		System.out.println( "Cash" +
+				"Federate   : " + message );
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class ConsumerFederate
 		
 		// connect
 		log( "Connecting..." );
-		fedamb = new ConsumerFederateAmbassador( this );
+		fedamb = new CashFederateAmbassador( this );
 		rtiamb.connect( fedamb, CallbackModel.HLA_EVOKED );
 
 		//////////////////////////////
@@ -139,7 +140,7 @@ public class ConsumerFederate
 		////////////////////////////
 
 		rtiamb.joinFederationExecution( federateName,            // name for the federate
-		                                "consumer",   // federate type
+		                                "cash",   // federate type
 		                                "ClientCashFederation"     // name of federation
 		                                 );           // modules we want to add
 
@@ -198,10 +199,10 @@ public class ConsumerFederate
 		/////////////////////////////////////
 		// 10. do the main simulation loop //
 		/////////////////////////////////////
-		Consumer consumer = new Consumer();
+		Cash cash = new Cash();
 		while( fedamb.isRunning )
 		{
-			int consumed = consumer.consume();
+			int consumed = cash.consume();
 			if(queueNumberOfClients - consumed >= 0 ) {
 				ParameterHandleValueMap parameterHandleValueMap = rtiamb.getParameterHandleValueMapFactory().create(1);
 				ParameterHandle addClientsCountHandle = rtiamb.getParameterHandle(getClientsHandle, "count");
@@ -214,7 +215,7 @@ public class ConsumerFederate
 				log("Consuming canceled because of lack of clients.");
 			}
 			// 9.3 request a time advance and wait until we get it
-			advanceTime(consumer.getTimeToNext());
+			advanceTime(cash.getTimeToNext());
 			log( "Time Advanced to " + fedamb.federateTime );
 		}
 
@@ -345,7 +346,7 @@ public class ConsumerFederate
 	public static void main( String[] args )
 	{
 		// get a federate name, use "exampleFederate" as default
-		String federateName = "Consumer";
+		String federateName = "Cash";
 		if( args.length != 0 )
 		{
 			federateName = args[0];
@@ -354,7 +355,7 @@ public class ConsumerFederate
 		try
 		{
 			// run the example federate
-			new ConsumerFederate().runFederate( federateName );
+			new CashFederate().runFederate( federateName );
 		}
 		catch( Exception rtie )
 		{

@@ -48,25 +48,25 @@
 				<sharing>PublishSubscribe</sharing>
 				<transportation>HLAreliable</transportation>
 				<order>Receive</order>
-				<semantics>Zdarzenia zarzadzania liczba produktow</semantics>
+				<semantics>Zdarzenia zarzadzania liczba klientow</semantics>
 				<parameter>
 					<name>count</name>
 					<dataType>HLAinteger32BE</dataType>
-						<semantics>Liczba produktow</semantics>
+						<semantics>Liczba klientow</semantics>
 				</parameter>
 				<interactionClass>
 					<name>AddClients</name>
 					<sharing>PublishSubscribe</sharing>
 					<transportation>HLAreliable</transportation>
 					<order>Receive</order>
-					<semantics>Zdarzenie wyprodukowania produkotw</semantics>
+					<semantics>Zdarzenie tworzenia klientow</semantics>
 				</interactionClass>
 				<interactionClass>
 					<name>GetClients</name>
 					<sharing>Publish</sharing>
 					<transportation>HLAbestEffort</transportation>
 					<order>Receive</order>
-					<semantics>Zdarzenia pobrania produktow</semantics>
+					<semantics>Zdarzenia pobrania klientow</semantics>
 				</interactionClass>
 			</interactionClass>
 		</interactionClass>

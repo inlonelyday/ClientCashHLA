@@ -9,8 +9,8 @@ public class Queue {
     private static Queue instance = null;
 
     private Queue() {
-        number_of_clients =0;
-        max=20;
+        number_of_clients = 0;
+        max = 20;
 
     }
 

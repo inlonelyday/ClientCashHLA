@@ -12,7 +12,7 @@
  *   (that goes for your lawyer as well)
  *
  */
-package Consumer;
+package Cash;
 
 import Producer.ProducerFederate;
 import hla.rti1516e.*;
@@ -27,7 +27,7 @@ import org.portico.impl.hla1516e.types.encoding.HLA1516eInteger32BE;
  * {@link ProducerFederate}. It will log information about any callbacks it
  * receives, thus demonstrating how to deal with the provided callback information.
  */
-public class ConsumerFederateAmbassador extends NullFederateAmbassador
+public class CashFederateAmbassador extends NullFederateAmbassador
 {
 	//----------------------------------------------------------
 	//                    STATIC VARIABLES
@@ -36,7 +36,7 @@ public class ConsumerFederateAmbassador extends NullFederateAmbassador
 	//----------------------------------------------------------
 	//                   INSTANCE VARIABLES
 	//----------------------------------------------------------
-	private ConsumerFederate federate;
+	private CashFederate federate;
 
 	// these variables are accessible in the package
 	protected double federateTime        = 0.0;
@@ -56,7 +56,7 @@ public class ConsumerFederateAmbassador extends NullFederateAmbassador
 	//                      CONSTRUCTORS
 	//----------------------------------------------------------
 
-	public ConsumerFederateAmbassador(ConsumerFederate federate )
+	public CashFederateAmbassador(CashFederate federate )
 	{
 		this.federate = federate;
 	}
